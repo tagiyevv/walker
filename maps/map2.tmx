@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="15" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="spacegame_tileset_by_kaiseto-d53qzyv" tilewidth="32" tileheight="32">
+  <image source="spacegame_tileset_by_kaiseto-d53qzyv.png" width="640" height="480"/>
+ </tileset>
+ <layer name="Backgound" width="50" height="15">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20ND6AAAIB3Awu4AAE=
+  </data>
+ </layer>
+ <layer name="Solid" width="50" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2BkA0UkrDTAbrEDYnsodiBRrykSNqOus0bBMAT6UDyYgSwQy0GxPJocyO1OQOzMgPCHGxBHAXEOErankdtEgViMSLWGQGwExcZo+u2xYFcGiF+QATH+eEwkfgjFyGJP0LA4FbA2Fjfi8get4olWAORebGE71PwxCogDjGh4IAEAil4hUA==
+  </data>
+ </layer>
+ <layer name="Foreground" width="50" height="15" opacity="0.72">
+  <data encoding="base64" compression="zlib">
+   eJzt0z9OAkEUBvChM/RIQwjSaWEsgNagDdqSFQu0NcAhALkA8kdvgF7EWlu4ADTcABK+DTPJOHn7ZneysI1f8it25u3mvdldIf7jmiG8Jd1EDBlJXLrEWlWTRHrQ165nEpfxwbpxzwSmEe+xva+kErUvVd+JuxHkFQbMfgHOoEjscXM8SlS9bY66ZZ/KO3ww+yUoQ8VY98Tf/6Fl0Os8rb4tDjOH7duowR3cW+rM/lU8h57UHD8Wn/AFKbE/o5T2jF9DE57gmek1bG/XGu7MXd5H1GQN1FqWuK9OoM5Y1frZBLiUgvaXsDJsA3qIA5UTKcwc30yNyZ8j7eAGbi01GTiFHCHMHHNYRJgl7+ABGpaac7iAKwI3h7IW+28m7By+lyPzswPi+pCN
+  </data>
+ </layer>
+</map>

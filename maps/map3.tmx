@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="100" height="30" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="tile1" tilewidth="16" tileheight="16">
+  <image source="spacegame_tileset_by_kaiseto-d53qzyv.png" width="640" height="480"/>
+ </tileset>
+ <layer name="Solid" width="100" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztmTlOw0AUhsfyNUAUBC7DIrFegCOwSGEJSxtKqKBJWCU4AogCGpYOjkJCwSJ+FyjWxDPzbMKMRf5P+vTryY6V+GniZ41ShBBCSHmYg/OCnILTcAbOZtTEL1W4CtfgekZN/NKATXgEjzNq4pd7+AAf4VNGTcrNQaTUYdSdJAy3uPd3UXeSMFzAy1S61sc7/ICf8EtQk3w8w5dUutbHMI5V4Agcjdw1yYdpfZhyDI7DCTgpqEk+TOvDlItwCS7DFUG9jWvuKHMSUpSNWKla3EkSlhP04DTuJCG+eYUtzbeg36i/GcAMMKg5xDktGHvsR6nodT/0mShUbsKtArngeW5InhftlL3uhz4ThcozeF4g63DX0q+f/UaX0r3I5Hmxr8n/KzlV4XnSvUj2ww/Svcgr3Otrhzfsx69J9iL19wibbYu2c2yfbf35rySEEPJf+QbQz9QB
+  </data>
+ </layer>
+ <layer name="Foreground" width="100" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztmrlPwzAUxp2GiZUFEAzwJ7BwDoBghoVj4xwAwcw1ggQS5wobZeaQOFfYgBnKn8E5wAJfpFSYVztxKG5CeZ/004uc18T2Z8duUyHsqzklREuqADdiGWkEXoyyH4nRCrxY9f1YQ1wHG2ATvKHsXehjkB4cIR7Bk2Ov7sWoI/T7se/HCeIpOAPnoAZ9WevoY5DK8fkKUMlzLxFqhQ9toJ39SITG4MM4mGA/QrUH9g1ivpLXJpZet+DOIOYreW1iJV9b2BNsO+aRZVcX6ONLxzyykql6PAMbQCNo4udh7BqAB4NgCAyzH7Eru0/g/UK8WgCLAfEvqccVotf9iixWodXl5NLN+7TYNO3kMsN+sP6BnjHOX8Arj3cjlWLPUGZx3+C916wC1dJ+V14jbKwTdE8UV+wD/RFjHWgGLYae0HeTYfL86ACdUq68RvA6odZogG+y6LvJMHl+TIIp/j6YCMXxP4wljKFlt3jjLNo4B+Z95jRRpTjedR2gzodu8cYdtDENdn3SmqhSHL9dZdzv3JNjGVW5Kk9VngkpV92D1i0q3jWu0MZrnxvp+JqUJ0Wqdnz4iJLv0L7zyuRjGVpO/aLX1OXlS7YtGSlSz+m4sJEXNVcHvYbcd/R82Filvsm+q/zPBzp2VO1S9YlcLxt5YblhY1LnDZ1Lv/Fs0RHlGqoyVTuz/gc9i23kheVGGXO6ORR0zpSf3NekHqZzz6QeNvJo7iev1wAa
+  </data>
+ </layer>
+</map>

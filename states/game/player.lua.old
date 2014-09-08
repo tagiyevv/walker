@@ -1,0 +1,438 @@
+love.filesystem.load("states/game/bullets.lua")
+love.filesystem.load("states/game/explosion.lua")
+
+bullet_alive_time = 0
+
+anims = {}
+move_right = false
+move_left = false
+last_direction = 1
+
+walk = {
+  		 time = 0,
+  		 frame = 0,
+  		 speed = 0.7,
+  		 frame_count = 8,
+		 }
+
+shoot = {
+		  state = false,
+		  time = 0,
+		  frame = 0,
+		  speed = 0.9,
+		  frame_count = 13,
+		  }
+
+jump = {
+		 state = false,
+		 time = 0,
+		 speed = 1.0,
+		 frame = 0,
+		 frame_count = 13,
+		 }
+
+hoover = {           
+			state = false,
+			speed = .55,
+			frame_count = 12,
+			time = 0,
+			frame  = 0,
+			}
+
+sfx_move_right = "sounds/robostep.wav" 
+sfx_shot = "sounds/cannon.ogg"
+
+sheet = love.graphics.newImage("textures/rustbug.png")
+shade = love.graphics.newImage("textures/shade.png")
+
+anims["idle_right"] = love.graphics.newQuad(0, 40, 70, 40, 910, 160)
+anims["idle_left"] = love.graphics.newQuad(0, 40, 70, 40, 910, 160)
+
+anims["jump"] = {}
+
+for i=0,12 do
+	anims["jump"][i] = love.graphics.newQuad((i*70), 80, 70, 40, 910, 160)
+end
+
+anims["walk_right"] = {}
+anims["walk_left"] = {}
+anims["shoot"]={}
+
+for i=0,7 do
+	anims["walk_right"][i] = love.graphics.newQuad((i*70), 0, 70, 40, 910, 160)
+	anims["walk_left"][i] =	love.graphics.newQuad(560-((i+1)*70), 0, 70, 40, 910, 160)
+end
+
+for i=0,12 do
+	anims["shoot"][i] = love.graphics.newQuad((i*70), 40, 70, 40, 910, 160)
+end
+
+anims["hoover_right"] = {}
+anims["hoover_left"] = {}
+
+for i=0,11 do
+	anims["hoover_right"][i] = love.graphics.newQuad(70+(i*70), 120, 70, 40, 910, 160)
+	anims["hoover_left"][i] =	love.graphics.newQuad(840-((i+1)*70), 120, 70, 40, 910, 160)
+end	
+
+world = {
+		gravity = 1035,
+		ground = 512,
+		}
+
+player = {
+		x=256,
+		y=256,
+		x_vel = 0,
+		y_vel = 0,
+		jump_vel = -512,
+		speed = 50,
+		flySpeed = 1500,
+		state = "",
+		h = 40,
+		w = 70,
+		standing = false,
+		removed = false,
+		health = 100,
+		}
+
+function player:jump()
+	if self.standing then
+		self.y_vel = self.jump_vel
+		self.standing = false
+	end 
+	jump.state = true 
+end
+
+function player:right()
+	self.x_vel = self.speed
+	last_direction = 1
+	move_right = true
+	move_left = false
+end
+
+function player:left()
+	self.x_vel = -1 * (self.speed)
+	move_left = true
+	move_right = false
+end
+
+function player:shoot()
+	shoot.state = true
+end
+
+function player:hoover()
+	hoover.state = true
+end
+
+function player:stop()	
+	self.x_vel = 0		
+end
+
+function player:collide( event )
+	if event == "floor" then
+		self.y_vel = 0
+		self.standing = true
+	end
+	if event == "cieling" then
+		self.y_vel = 0
+	end
+end
+
+function player:update(dt)
+	if not self.removed  then
+		if love.keyboard.isDown("right") then
+			player:right()
+		end
+		if love.keyboard.isDown("left") then
+			player:left()
+		end
+		if love.keyboard.isDown("up") then
+			player:jump()
+		end
+		--if love.keyboard.isDown("z") then
+		--	player:shoot()
+		--end
+		if love.keyboard.isDown("lshift") then
+			player:hoover()
+		end
+
+		--if not love.keyboard.isDown("z") then
+		--	shoot.state = false
+		--end
+
+		if not love.keyboard.isDown("lshift") then
+			hoover.state = false
+		end
+		
+		if move_right then
+
+			walk.time = walk.time+dt
+			shoot.state = false
+			if hoover.state then 
+				frame_time = hoover.speed/hoover.frame_count
+			else
+				frame_time = walk.speed/walk.frame_count
+			end
+		
+			if walk.time > frame_time then
+				walk.time = walk.time-frame_time
+
+				if walk.frame == 0 and not jump.state then
+	   				TEsound.play(sfx_move_right)
+				end
+
+				walk.frame=walk.frame+1
+
+				if hoover.state then 
+					if walk.frame>7 then walk.frame=0 end
+				else
+					if walk.frame>7 then walk.frame=0 end
+				end
+			end
+		end
+
+		if move_left then
+
+			walk.time = walk.time+dt
+			shoot.state = false
+
+			if hoover.state then 
+				frame_time = hoover.speed/hoover.frame_count
+			else
+				frame_time = walk.speed/walk.frame_count
+			end
+					
+			if walk.time > frame_time then
+				walk.time = walk.time-frame_time
+
+				if walk.frame == 0 and not jump.state then
+	       			TEsound.play(sfx_move_right,{"left"},0.8,.96)
+				end
+
+				walk.frame=walk.frame+1
+
+				if hoover.state then 
+					if walk.frame>7 then walk.frame=0 end
+				else
+					if walk.frame>7 then walk.frame=0 end
+				end
+			end
+		end
+
+		if shoot.state then
+			shoot.time = shoot.time+dt
+			
+			frame_time = shoot.speed/shoot.frame_count
+			
+			if shoot.time > frame_time then
+				shoot.time = shoot.time-frame_time
+				shoot.frame=shoot.frame+1
+				if shoot.frame == 3 then 
+					TEsound.play(sfx_shot,{"shot"},.7,1)
+				end
+				if shoot.frame > 12 then shoot.frame = 0 end
+			end
+		end	
+
+		if hoover.state then
+			hoover.time = hoover.time + dt
+			frame_time = hoover.speed / hoover.frame_count
+
+			if hoover.time > frame_time then
+				hoover.time = hoover.time - frame_time
+				hoover.frame = hoover.frame +1 
+					if hoover.frame > 11 then hoover.frame = 0 end
+				end
+			end
+
+		if jump.state then
+			jump.time = jump.time + dt
+			frame_time = jump.speed / jump.frame_count
+
+			if jump.time > frame_time then
+				jump.time = jump.time - frame_time
+				jump.frame = jump.frame + 1
+				if jump.frame > 12 then jump.frame = 0 end
+			end
+	    end
+
+	    if player.y_vel == 0 then jump.frame = 0 end
+	    
+		local halfX = self.w / 2
+		local halfY = self.h / 2
+
+		self.y_vel = self.y_vel + (world.gravity * dt)
+
+		self.x_vel = math.clamp(self.x_vel, -self.speed, self.speed)
+		self.y_vel = math.clamp(self.y_vel, -self.flySpeed, self.flySpeed)
+
+		local nextY = self.y + (self.y_vel * dt)
+		if self.y_vel < 0 then
+			if not (self:isColliding(map, self.x - halfX + 5, nextY -halfY))
+				and not (self:isColliding(map, self.x + halfX -1 -15, nextY - halfY)) then
+				self.y = nextY
+				self.standing = false
+			else
+				self.y = nextY + map.tileHeight - ((nextY -halfY) % map.tileHeight)
+				self:collide("cieling")
+			end
+		end
+		if self.y_vel > 0 then
+			if not (self:isColliding(map, self.x - halfX + 5, nextY + halfY))
+				and not(self:isColliding(map, self.x + halfX -1 - 15, nextY + halfY)) then
+				self.y = nextY
+				self.standing = false
+			else
+				self.y = nextY  - ((nextY + halfY) % map.tileHeight)
+				self:collide("floor")
+			end
+		end
+
+		local nextX = self.x + (self.x_vel * dt)
+		if self.x_vel > 0 then
+			if not(self:isColliding(map, nextX + halfX - 15, self.y - halfY)) -- -15 IS THE IMAGE CUT
+				and not (self:isColliding(map, nextX + halfX - 15 , self.y + halfY -1 )) then
+				self.x = nextX
+			else
+				self.x = nextX - ((nextX + halfX - 15) % map.tileWidth)
+			end
+		elseif self.x_vel < 0 then
+			if not(self:isColliding(map, nextX - halfX + 5 , self.y - halfY))
+				and not (self:isColliding(map, nextX - halfX + 5 , self.y + halfY -1 )) then
+				self.x = nextX
+			else
+				self.x =nextX + map.tileWidth - ((nextX - halfX + 5) % map.tileWidth)
+			end
+		end
+
+		self.state = self:getState()
+		if self.standing then jump.state = false end
+
+		
+		if shoot.state and shoot.frame == 5  then
+			newBullet(player.x + 12, player.y - 6,.7,.7,312,"foo")
+		end
+	end  --- if nor removed
+
+	--- remove player
+	for j,w in ipairs(bullet) do
+		if (bullet[j].tag =="fiend")and(bullet[j].x > player.x-20)and(bullet[j].x<player.x+20)and(bullet[j].y < player.y+40)and(bullet[j].y > player.y-20) then
+			player.health = player.health - 10
+			newHit(w.x-12,w.y-20) --- MISPLACED ---
+			removeBullet(j)
+			--if player.health < 0 then
+			--	player:remove()
+			--	newExplosion(player.x - player.w, player.y - player.h)
+			--end
+		end
+	end
+
+end
+
+function player:remove()
+	player.removed = true
+end
+
+function player:isColliding(map, x, y)
+	local layer = map.tl["Solid"]
+	local tileX, tileY = math.floor(x / map.tileWidth), math.floor(y / map.tileHeight)
+	local tile = layer.tileData(tileX, tileY)
+	return not(tile == nil)
+end
+
+function player:getState()
+	local tempState = ""
+	if self.standing then
+		if self.x_vel > 0 then
+			tempState = "right"
+		elseif self.x_vel < 0 then
+			tempState = "left"
+		else
+			tempState = "stand"
+		end
+	end
+	if self.y_vel > 0 then
+		tempState = "fall"
+	elseif self.y_vel < 0 then
+		tempState = "jump"
+	else
+		tempState = "stand"
+	end
+
+end
+
+function player:draw()
+	if not self.removed then
+		if move_right then
+			if hoover.state then 
+				love.graphics.draw(sheet, anims["hoover_right"][hoover.frame], player.x - player.w/2, player.y - player.h/2)
+			elseif jump.state then
+				love.graphics.draw(sheet, anims["jump"][jump.frame], player.x - player.w/2, player.y - player.h/2)
+			else
+				love.graphics.draw(sheet, anims["walk_right"][walk.frame], player.x - player.w/2, player.y - player.h/2)
+			end	
+	
+		elseif move_left then
+			if hoover.state then 
+				if walk.frame>7 then walk.frame=0 end
+				love.graphics.draw(sheet, anims["hoover_left"][walk.frame], player.x - player.w/2, player.y - player.h/2)
+			elseif jump.state then
+				if jump.frame>12 then jump.frame=0 end
+				love.graphics.draw(sheet, anims["jump"][jump.frame], player.x - player.w/2, player.y - player.h/2)
+			else
+				love.graphics.draw(sheet, anims["walk_left"][walk.frame], player.x - player.w/2, player.y - player.h/2)
+			end
+	
+		elseif shoot.state then
+			love.graphics.draw(sheet, anims["shoot"][shoot.frame], player.x - player.w/2, player.y - player.h/2)
+		
+		elseif jump.state then
+			if walk.frame>7 then walk.frame=0 end
+			love.graphics.draw(sheet, anims["jump"][jump.frame], player.x - player.w/2, player.y - player.h/2)
+		
+		else
+			if last_direction == 1 then 
+				if jump.state then
+					love.graphics.draw(sheet, anims["jump"][jump.frame], player.x - player.w/2, player.y - player.h/2)
+				else
+					love.graphics.draw(sheet, anims["idle_right"], player.x - player.w/2, player.y - player.h/2)
+				end
+			else	
+				if jump.state then
+					love.graphics.draw(sheet, anims["jump"][jump.frame], player.x - player.w/2, player.y - player.h/2)
+				else
+					love.graphics.draw(sheet, anims["idle_left"], player.x - player.w/2, player.y - player.h/2)
+				end
+			end
+		end
+	end
+
+end
+
+function player:keyreleased( key )
+	if (key =="left") or (key == "right") then
+		player.x_vel = 0
+		move_right = false
+		move_left = false
+		walk.frame=0
+		walk.time=0
+	end
+	
+	if key == 'z' then
+		last_direction = 2
+        shoot.state = false
+		walk.frame=0
+		walk.time=0
+    end
+
+    if key == 'lshift' then
+		hoover.state = false
+	end	
+end
+
+function player:keypressed( key , isrepeat)
+	if (key =="z") then
+		shoot.state = true
+	end
+end 

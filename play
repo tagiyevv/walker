@@ -1,0 +1,16 @@
+#!/bin/bash
+zip -r "walkertest.zip" * -x play.sh walkertest.love
+
+echo " "
+echo "  Finished"
+
+mv walkertest.zip walkertest.love
+
+echo -n "  *.love file created. Continue running script (Yes/No): "
+read  response
+if [ "$response" == "yes" -o "$response" == "y" ]
+	then
+		love walkertest.love
+else
+	exit
+fi

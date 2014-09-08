@@ -1,0 +1,23 @@
+
+Vusal Tagiyev 2014
+
+	This is an open project any contrubution is appriciated
+	and urjed. Most of the graphics and all of the musics 
+	aren't mine, so be careful. (I know, I should be careful but nah...)
+
+
+---
+
+To Run ...
+	on Windows ...
+		- Download and install love2d 0.9.0 from www.love2d.org
+		- Compress the folder in <desired_name>.zip
+		- Change .zip to .love
+		- Run
+	
+	on Linux ...
+		- Install love2d from official repositories (Arch, Ubuntu, etc.)
+		- Make "play" file executable ($ chmod +x play)
+		- Run the "play" file ($ ./play) 
+
+		
