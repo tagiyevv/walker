@@ -5,6 +5,9 @@ rayRemoved = false
 local rayCastClock
 local rayReady = true
 
+local consolationClock
+local consolationReady = true
+
 function newRay(x, x1, x2)
    local id = #ray+1
 
@@ -28,6 +31,8 @@ end
 function updateRays(dt)
 
    if rayCastClock then rayCastClock:update(dt) end
+
+   if consolationClock then consolationClock:update(dt) end
 
    if rayRemoved then
       rayRemoved = false
@@ -102,4 +107,17 @@ function loadRayConsolation(loc_x)
       end
    end)
 
+end
+
+random_int = {4,8,13}
+
+function random_rays()
+   if consolationReady then
+      loadRayConsolation(camera.x + math.random(80,550))
+      consolationReady = false
+   end
+   consolationClock = cron.after(random_int[math.random(1,3)], function()
+      random_rays()
+      consolationReady = true
+   end)
 end

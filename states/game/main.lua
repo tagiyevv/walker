@@ -17,7 +17,6 @@ function load()
 	
 	love.graphics.setBackgroundColor(51,66,80)
 	bg = love.graphics.newImage("textures/background.png")
-	--border = love.graphics.newImage("textures/border.png")
 	--camera deflection
 	camera.time = 0
 	camera.speed = 50
@@ -41,10 +40,6 @@ function load()
 		newCloud(math.random(-2400,-160),math.random(0,150),sr,sr, math.random(16,64))
 	end
 
-	--for i = 1, 10 do
-	--	newDrop()
-	--end
-
 	TEsound.playLooping(bg_musics,0.4)
 
 	time = 0
@@ -54,6 +49,8 @@ function load()
 	quit         = false --- QUIT DIALOG SHIT ---
 
 	love.keyboard.setKeyRepeat(false)
+
+	random_rays()
 end
 
 function love.draw()
@@ -152,8 +149,6 @@ function love.keypressed(key)
 			newPlayer(camera.x+100, camera.y)
 			playerHeart = playerHeart - 1
 		end
-	elseif key =='r' then
-		loadRayConsolation(camera.x + math.random(80, 550))
 	end
 	player:keypressed(key)
 	pausem:keypressed(key)
