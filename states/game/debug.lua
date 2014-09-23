@@ -19,7 +19,7 @@ function debug:draw()
 	love.graphics.print("shoot frame: ".. shoot.frame, 16, dy*10, 0,1,1)
 	love.graphics.print("player #: ".. #player,16,dy*11,0,1,1)
 	love.graphics.print("enemy #: ".. #enemy,16,dy*12,0,1,1)
-	love.graphics.print("camera.x:  ".. camera.x,16,dy*13,0,1,1)
+	love.graphics.print("camera.x:  ".. map.width * map.tileWidth,16,dy*13,0,1,1)
 	--love.graphics.print("flash".. tostring(flash),16,dy*13,0,1,1)
 	--love.graphics.print("delx ".. tt,16,dy*14,0,1,1)
 

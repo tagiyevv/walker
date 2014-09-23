@@ -14,14 +14,15 @@ function load()
 	require("states/game/quit_dialog")
 	require("states/game/rain")
 	require("states/game/ray")
-	
+	require("states/game/boss1")
+
 	love.graphics.setBackgroundColor(51,66,80)
 	bg = love.graphics.newImage("textures/background.png")
 	--camera deflection
-	camera.time = 0
+	camera.time  =  0
 	camera.speed = 50
-	camera.xmag = 7
-	camera.ymag = 7
+	camera.xmag  =  7
+	camera.ymag  =  7
 	--
 	music_path = "sounds/bg_music/"
 	bg_musics = {music_path.."gymnop01.ogg", music_path.."gnoss.ogg", music_path.."bwv639.ogg"}
@@ -51,26 +52,34 @@ function load()
 	love.keyboard.setKeyRepeat(false)
 
 	random_rays()
+
+
+	--BOSS   find a way to organise it
+	random_head_move()
+	random_rocket_launch()
+	random_arm_move()
 end
 
 function love.draw()
 
 	if (not pause) then  ---NOT PAUSED ---
 		camera:set()
-
+		
+		love.graphics.setColor(255,255,255)
 		for i = 0, love.graphics.getWidth() / bg:getWidth() do
-			love.graphics.setColor(255,255,255)
 			love.graphics.draw(bg, i*bg:getWidth() + camera.x*0.5, (love.graphics.getHeight()-bg:getHeight() + camera.y*0.3),0,1,1,0,0)
 		end
 	
 		drawPlayer()
 		--drawClouds()
 		drawEnemy()
+		drawBoss()
 		drawBullets()
 		drawExplosion()
 		drawHit()
 		drawDrops()
 		drawRays()
+
 
 		love.graphics.setColor(255,255,255)
 		map:draw()
@@ -116,7 +125,10 @@ function love.update(dt)
 		updatePlayer(dt)
 		updateDrops(dt)
 		updateRays(dt)
+		updateHud(dt)
 	
+		updateBoss(dt)
+
 		for i,v in ipairs(player) do
 			if v.removed  then 
 				shake_it = true 
@@ -152,6 +164,7 @@ function love.keypressed(key)
 	end
 	player:keypressed(key)
 	pausem:keypressed(key)
+	bos:keypressed(key)
 end
 
 function love.keyreleased(key)

@@ -8,6 +8,7 @@ hudY = 0
 hudWidth  = 640
 hudHeight = 60
 
+
 health_bar = love.graphics.newImage("textures/health_bar.png")
 health_quads = {}
 
@@ -21,6 +22,7 @@ end
 
 function drawHud( )
 	love.graphics.draw(trans,0,0)
+
 	love.graphics.setColor(0,0,0,255)
 	love.graphics.rectangle("line",hudX + 439, hudY + 19, 190,14)
 	love.graphics.setColor(0,0,0,200)

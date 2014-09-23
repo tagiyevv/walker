@@ -13,10 +13,15 @@ function love.conf(t)
     t.console = true            -- Attach a console (boolean, Windows only)
     t.title = "walker"          -- The title of the window the game is in (string) 
     t.author = "vusal tagiyev"  -- The author of the game (string)
+
+
     t.window.fullscreen = false  -- Enable fullscreen (boolean)
     --t.window.fullscreentype = "desktop"
+    t.window.icon = "textures/rustbuglog.gif"
     t.window.vsync = false      -- Enable vertical sync (boolean)
     t.window.fsaa = 0           -- The number of FSAA-buffers (number)
     t.window.height = 400       -- The window height (number)
-    t.window.width = 640        -- The window width (number) 
+    t.window.width = 640        -- The window width (number)
+    t.window.resizable = false
+    t.window.borderless = false 
 end
